@@ -1,6 +1,7 @@
 const express = require('express')
 const path = require('path')
 const taskRouter = require('./routes/tasks/tasks.routes')
+const notFound = require('./middleware/notFound')
 require('dotenv').config()
 const connectDB = require('./db/connect')
 
@@ -11,11 +12,8 @@ const PORT = 3000
 app.use(express.static(path.join(__dirname, "public")))
 app.use(express.json())
 
-app.get('/hello',(req, res) => {
-    return res.send("Welcome to the home page!!!")
-})
-
 app.use('/api/v1/tasks', taskRouter)
+app.use(notFound)
 
 const startServer = async () => {
     try {
